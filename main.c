@@ -1,14 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+#define PI 3.14
 
-void main()
+int main()
 {
-    double a,b,c,ans1,ans2;
-    printf("Input the a,b,c of polynomials below in this form (a b c):\n");
-    scanf("%lf %lf %lf",&a,&b,&c);
-    ans1= (-b+(sqrt((pow(b,2))-(4*a*c))))/(2*a);
-    ans2= (-b-(sqrt((pow(b,2))-(4*a*c))))/(2*a);
-    printf("Answer to the polynomial provided is \nx1 = %.2f\nand\nx2 = %.2f", ans1, ans2);
-    return 0;
+    int a,b,c,min,max;
+    printf("Input 3 numbers: ");
+    scanf("%d %d %d",&a,&b,&c);
+    if(a<=b && a<=c) min=a;
+    else if(b<=c) min=b;
+    else min=c;
+
+    if(a>=b && a>=c) max=a;
+    else if(b>=c) max=b;
+    else max=c;
+
+    printf("Min is %d\n",min);
+    printf("Mas is %d\n",max);
+    return main;
 }
