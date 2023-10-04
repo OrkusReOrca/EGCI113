@@ -11,6 +11,7 @@ void main()
     double aP=a,bP=b,cP=c;
     puts("");
 
+    puts("The root of polynomial:");
     //EQUATION printed
     //print a
     switch(a){
@@ -36,9 +37,19 @@ void main()
         default: printf("%d",c);
     }
 
-    printf(" = ");
-    //OUTPUT print behind =
+    //print root of polynomial behind
+    double chckSq= (pow(bP,2))-(4*aP*cP);
+    double Sq=sqrt(chckSq);
+    if(chckSq<0){ //UNDEFINE
+        printf(" does not exist (due to negative root) \n\n");
+    }else{
+        printf(" is %.2f \n\n",Sq);
+    }
+
+    //OUTPUT print behind below
     //ZERO a and b
+
+    printf("The X of the polynomial is ");
     if(a==0 && b==0){
         printf("%d", c);
 
@@ -49,11 +60,10 @@ void main()
 
     //NO ZERO conditions
     }else{
-        double chckSq= (pow(bP,2))-(4*aP*cP);
 
         //undefine or normal
         if(chckSq<0){ //UNDEFINE
-            printf("UNDEFINE");
+            printf("DNE");
         }else{ //DEFINED
             ans1= (-bP+(sqrt((pow(bP,2))-(4*aP*cP))))/(2*aP);
             ans2= (-bP-(sqrt((pow(bP,2))-(4*aP*cP))))/(2*aP);
