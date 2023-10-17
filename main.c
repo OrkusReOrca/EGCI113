@@ -6,10 +6,10 @@
 int main()
 {
     int m,ed,i,k,s,in,l,sn;
-    printf("Diamond height: ");
+    printf("Diamond half height: ");
     scanf("%d",&in);
     puts("");
-    if (in%2==1) in-=1; //fix the odd input problem
+    in=in*2;
     sn=((in*2)/2);
     ed=sn;
     l=1;
