@@ -1,76 +1,116 @@
-#include <stdlib.h>
-#include <math.h>
+#include <stdio.h>
 
-//By Kunanon 6581163
-void main()
+#define MaxRow 10 // array-maximum no of rows
+#define MinRow 1  // array-minimum no of rows
+#define MaxCol 6  // array-maximum no of columns
+#define MinCol 1  // array-minimum no of columns
+
+// Function declarations
+int ReadArraySize(int, int);
+void InitArray(int [][MaxCol], int [][MaxCol], int, int);
+void InitArrayC(int [][MaxCol], int [][MaxCol], int [][MaxCol], int, int);
+void DispResult(int [][MaxCol], int, int, int);
+void ReadArray(int [][MaxCol], int, int); // to add 1 array at a time
+void TransposeMatrix(int [][MaxCol], int [][MaxCol], int, int);
+
+int main()
 {
-    double ans1,ans2;
-    int a,b,c;
-    printf("Input the a,b,c of polynomials below in this form (a b c):\n");
-    scanf("%d %d %d",&a,&b,&c);
-    double aP=a,bP=b,cP=c;
-    puts("");
+    int RowSize, ColSize;
+    int a[MaxRow][MaxCol], b[MaxRow][MaxCol], c[MaxRow][MaxCol];
 
-    puts("The root of polynomial:");
-    //EQUATION printed
-    //print a
-    switch(a){
-        case 0: break;
-        case 1: printf("x^2"); break;
-        case -1: printf("-x^2"); break;
-        default: printf("%dx^2",a);
-    }
+    printf("Please specify no. of rows of arrays: ");
+    RowSize = ReadArraySize(MinRow, MaxRow);
 
-    //print b
-    if(a!=0 && b>0) printf("+");
-    switch(b){
-        case 0: break;
-        case 1: printf("x"); break;
-        case -1: printf("-x"); break;
-        default: printf("%dx",b);
-    }
+    printf("Please specify no. of columns of arrays: ");
+    ColSize = ReadArraySize(MinCol, MaxCol);
+    printf("Array size is set to: [%d] [%d]\n", RowSize, ColSize);
 
-    //print c
-    if((a!=0 || b!=0)&&c>0) printf("+");
-    switch(c){
-        case 0: break;
-        default: printf("%d",c);
-    }
+    ReadArray(a, RowSize, ColSize);
+    ReadArray(b, RowSize, ColSize);
 
-    //print root of polynomial behind
-    double chckSq= (pow(bP,2))-(4*aP*cP);
-    double Sq=sqrt(chckSq);
-    if(chckSq<0){ //UNDEFINE
-        printf(" does not exist (due to negative root) \n\n");
-    }else{
-        printf(" is %.2f \n\n",Sq);
-    }
+    // find array c[][] = array a[][] + b[][]
+    InitArrayC(a, b, c, RowSize, ColSize);
 
-    //OUTPUT print behind below
-    //ZERO a and b
+    printf("Displaying array a:\n");
+    DispResult(a, RowSize, ColSize, 1);
 
-    printf("The X of the polynomial is ");
-    if(a==0 && b==0){
-        printf("%d", c);
+    printf("\nDisplaying array b:\n");
+    DispResult(b, RowSize, ColSize, 1);
 
-    //ZERO a
-    }else if (a==0){
-       ans1= (-cP)/bP;
-       printf("%.2f", ans1);
+    printf("\nDisplaying result in array c:\n");
+    DispResult(c, RowSize, ColSize, 1);
 
-    //NO ZERO conditions
-    }else{
+    // Calculate and display the transpose of array c
+    printf("\nDisplaying transpose of array c:\n");
+    TransposeMatrix(c, a, RowSize, ColSize);
+    DispResult(a, ColSize, RowSize, 2);
 
-        //undefine or normal
-        if(chckSq<0){ //UNDEFINE
-            printf("DNE");
-        }else{ //DEFINED
-            ans1= (-bP+(sqrt((pow(bP,2))-(4*aP*cP))))/(2*aP);
-            ans2= (-bP-(sqrt((pow(bP,2))-(4*aP*cP))))/(2*aP);
-            if(ans1==ans2) printf("%.2f", ans1); //ONE ANSWER
-            else printf("%.2f and %.2f", ans1, ans2); // TWO ANSWER
-        }
-    }
-    puts("");
+    printf("\nPlease type any key to exit: ");
+    getchar();
+
     return 0;
+}
+
+int ReadArraySize(int MinSize, int MaxSize)
+{
+    int size;
+    do
+    {
+        printf(" range[%d..%d] : ", MinSize, MaxSize);
+        scanf("%d", &size);
+    } while (size > MaxSize || size <= MinSize);
+
+    return size;
+}
+
+void InitArray(int a[][MaxCol], int b[][MaxCol], int RowSize, int ColSize)
+{
+    int i, j;
+    printf("\nInitializing arrays a and b..\n");
+    for (i = 0; i < RowSize; i++)
+        for (j = 0; j < ColSize; j++)
+        {
+            a[i][j] = i + j;
+            b[i][j] = 2 * (i + j);
+        }
+}
+
+void InitArrayC(int a[][MaxCol], int b[][MaxCol], int c[][MaxCol], int RowSize, int ColSize)
+{
+    int i, j;
+    printf("Calculating array c..\n\n");
+    for (i = 0; i < RowSize; i++)
+        for (j = 0; j < ColSize; j++)
+            c[i][j] = a[i][j] + b[i][j];
+}
+
+void DispResult(int array[][MaxCol], int RowSize, int ColSize, int arrayNumber)
+{
+    int i, j;
+    for (i = 0; i < RowSize; i++)
+    {
+        for (j = 0; j < ColSize; j++)
+            printf("%4d", array[i][j]);
+        printf("\n");
+    }
+}
+
+void ReadArray(int array[][MaxCol], int RowSize, int ColSize)
+{
+    int i, j;
+    printf("\nEnter array values:\n");
+    for (i = 0; i < RowSize; i++)
+        for (j = 0; j < ColSize; j++)
+        {
+            printf("Enter value for element [%d][%d]: ", i, j);
+            scanf("%d", &array[i][j]);
+        }
+}
+
+void TransposeMatrix(int original[][MaxCol], int transposed[][MaxCol], int RowSize, int ColSize)
+{
+    int i, j;
+    for (i = 0; i < ColSize; i++)
+        for (j = 0; j < RowSize; j++)
+            transposed[i][j] = original[j][i];
 }
